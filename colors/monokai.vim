@@ -213,6 +213,14 @@ call s:h("Underlined",    { "fg": s:green })
 call s:h("Ignore",        {})
 call s:h("Error",         { "fg": s:red, "bg": s:darkred })
 
+" Diagnostic highlights
+" ----------------------
+
+call s:h("DiagnosticError",         { "fg": s:red })
+call s:h("DiagnosticWarn",          { "fg": s:orange })
+call s:h("DiagnosticInfo",          { "fg": s:yellow })
+call s:h("DiagnosticHint",          { "fg": s:grey })
+
 " NerdTree
 " --------
 
