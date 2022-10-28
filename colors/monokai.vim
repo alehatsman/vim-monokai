@@ -235,6 +235,16 @@ call s:h("NERDTreeUp",              { "fg": s:white })
 call s:h("NERDTreeDirSlash",        { "fg": s:grey })
 call s:h("NERDTreeDir",             { "fg": s:grey })
 
+" NvimTree
+" TODO: add more highlights
+
+" Gitsigns
+
+call s:h("GitSignsAdd",    { "fg": s:addfg, "bg": s:lightblack })
+call s:h("GitSignsChange", { "fg": s:changefg, "bg": s:lightblack })
+call s:h("GitSignsDelete", { "fg": s:delfg, "bg": s:lightblack })
+
+
 " Syntastic
 " ---------
 
