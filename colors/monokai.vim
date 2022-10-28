@@ -255,6 +255,48 @@ call s:h("GitSignsDelete", { "fg": s:delfg, "bg": s:lightblack })
 hi! link SyntasticErrorSign Error
 call s:h("SyntasticWarningSign",    { "fg": s:lightblack, "bg": s:orange })
 
+" DAP
+" ---
+
+hi link DapUIVariable Normal
+hi link DapUIValue Normal
+hi link DapUIFrameName Normal
+hi link DapUILineNumber LineNr
+hi link DapUIBreakpointsLine DapUILineNumber
+
+call s:h("DapUIScope", { "fg": s:pink })
+call s:h("DapUIType", { "fg": s:purple })
+call s:h("DapUIModifiedValue", { "fg": s:purple })
+call s:h("DapUIDecoration", { "fg": s:aqua })
+call s:h("DapUIThread", { "fg": s:green })
+call s:h("DapUIStoppedThread", { "fg": s:pink })
+call s:h("DapUISource", { "fg": s:purple })
+call s:h("DapUIFloatBorder", { "fg": s:aqua })
+call s:h("DapUIWatchesEmpty", { "fg": s:pink })
+call s:h("DapUIWatchesValue", { "fg": s:green })
+call s:h("DapUIWatchesError", { "fg": s:pink })
+call s:h("DapUIBreakpointsPath", { "fg": s:yellow })
+call s:h("DapUIBreakpointsInfo", { "fg": s:green })
+call s:h("DapUIBreakpointsCurrentLine", { "fg": s:green, "format": "bold" })
+
+hi link DapUICurrentFrameName DapUIBreakpointsCurrentLine
+
+call s:h("DapUIStepOver", { "fg": s:aqua })
+call s:h("DapUIStepInto", { "fg": s:aqua })
+call s:h("DapUIStepBack", { "fg": s:aqua })
+call s:h("DapUIStepOut", { "fg": s:aqua })
+
+call s:h("DapUIPlayPause", { "fg": s:green })
+call s:h("DapUIRestart", { "fg": s:green })
+
+call s:h("DapUIStop", { "fg": s:pink })
+
+call s:h("DapUIBreakpointsDisabledLine", { "fg": s: })
+
+hi DapUIBreakpointsDisabledLine guifg=#424242
+hi DapUIUnavailable guifg=#424242
+
+
 " coc
 " ---
 
