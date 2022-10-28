@@ -236,9 +236,13 @@ call s:h("NERDTreeDirSlash",        { "fg": s:grey })
 call s:h("NERDTreeDir",             { "fg": s:grey })
 
 " NvimTree
-" TODO: add more highlights
+" --------
+
+call s:h("NvimTreeRootFolder",      { "fg": s:pink })
+
 
 " Gitsigns
+" --------
 
 call s:h("GitSignsAdd",    { "fg": s:addfg, "bg": s:lightblack })
 call s:h("GitSignsChange", { "fg": s:changefg, "bg": s:lightblack })
