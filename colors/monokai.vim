@@ -177,7 +177,7 @@ call s:h("Boolean",       { "fg": s:purple })
 call s:h("Character",     { "fg": s:yellow })
 call s:h("String",        { "fg": s:yellow })
 
-call s:h("Type",          { "fg": s:green })
+call s:h("Type",          { "fg": s:white })
 call s:h("Structure",     { "fg": s:aqua })
 call s:h("StorageClass",  { "fg": s:aqua })
 call s:h("Typedef",       { "fg": s:aqua })
@@ -188,7 +188,7 @@ call s:h("Function",      { "fg": s:green })
 call s:h("Statement",     { "fg": s:pink })
 call s:h("Operator",      { "fg": s:pink })
 call s:h("Label",         { "fg": s:pink })
-call s:h("Keyword",       { "fg": s:aqua })
+call s:h("Keyword",       { "fg": s:pink })
 "        Conditional"
 "        Repeat"
 "        Exception"
@@ -392,7 +392,7 @@ call s:h("dartCoreType",        { "fg": s:aqua })
 call s:h("dartType",            { "fg": s:aqua })
                                  
 " HTML
-call s:h("htmlTag",             { "fg": s:white })
+call s:h("htmlTag",             { "fg": s:pink })
 call s:h("htmlEndTag",          { "fg": s:white })
 call s:h("htmlTagName",         { "fg": s:pink })
 call s:h("htmlArg",             { "fg": s:green })
@@ -541,3 +541,12 @@ hi link @punctuation.bracket Identifier
 hi link @function.builtin Keyword
 hi link @function.call Identifier
 hi link @method.call Identifier
+
+call s:h("Parameter",          { "fg": s:orange })
+call s:h("Constructor",        { "fg": s:aqua, "format": "italic" })
+
+hi link @parameter Parameter
+hi link @constructor Constructor
+
+hi link @tag htmlTag
+hi link @tag.attribute htmlArg
