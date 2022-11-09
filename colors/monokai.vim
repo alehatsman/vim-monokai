@@ -539,3 +539,5 @@ hi link @field Identifier
 hi link @keyword.function Keyword
 hi link @punctuation.bracket Identifier
 hi link @function.builtin Keyword
+hi link @function.call Identifier
+hi link @method.call Identifier
