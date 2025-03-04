@@ -63,6 +63,32 @@ If you are using a font which support italic, paste below command in `.vimrc` to
 Recommend syntax plugins
 ------------------------
 
+### nvim-treesitter
+
+It is recommend to use [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
+for general language syntax mapping. **vim-monokai** tweaked to fit _treesitter_'s 
+highlight groups.
+
+> Currently `nvim-treesitter` only support `neovim`.
+
+#### treesitter configuration
+
+To enable treesitter's highlight group, add below configuration to your `init.vim`:
+
+```VimScript
+lua << EOF
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+  },
+}
+EOF
+```
+
+Refer to [treesitter highlight](https://github.com/nvim-treesitter/nvim-treesitter?tab=readme-ov-file#highlight).
+
+### Other syntax plugins
+
 Below plugins would give you better experience when using *vim-monokai*:
 
 | Language     | Plugins                                                                                                                               |
@@ -73,8 +99,45 @@ Below plugins would give you better experience when using *vim-monokai*:
 | JSX          | [vim-jsx-pretty](https://github.com/MaxMEllon/vim-jsx-pretty)                                                                         |
 | Markdown     | [vim-markdown](https://github.com/tpope/vim-markdown)                                                                                 |
 
+Windows terminal
+----------------
+
+Matched __Windows Terminal__ color scheme:
+
+```json
+{
+  "background": "#272822",
+  "black": "#272822",
+  "blue": "#AE81FF",
+  "brightBlack": "#383A3E",
+  "brightBlue": "#AE81FF",
+  "brightCyan": "#66D9EF",
+  "brightGreen": "#A6E22D",
+  "brightPurple": "#F92772",
+  "brightRed": "#F92772",
+  "brightWhite": "#E8E8E3",
+  "brightYellow": "#E6DB74",
+  "cursorColor": "#E8E8E3",
+  "cyan": "#66D9EF",
+  "foreground": "#E8E8E3",
+  "green": "#A6E22D",
+  "name": "Monokai",
+  "purple": "#F92772",
+  "red": "#E73C50",
+  "selectionBackground": "#FFFFFF",
+  "white": "#D8D8D3",
+  "yellow": "#FD9720"
+}
+```
+
 Screenshots
 -----------
+
+_With treesitter_
+
+![with treesitter](screenshots/with-treesitter.png)
+
+_With other syntax plugins_
 
 ![typescript](screenshots/typescript.png)
 
