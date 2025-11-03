@@ -153,24 +153,27 @@ call s:h("SpecialKey",    { "fg": s:pink })
 call s:h("Title",         { "fg": s:yellow })
 call s:h("Directory",     { "fg": s:aqua })
 
-" dimmer diff palette
-let s:addbg     = { "gui": "#30433a", "cterm": "22"  }   " dark desaturated green
-let s:addfg     = { "gui": "#b9e3c0", "cterm": "151" }   " soft green
-let s:delbg     = { "gui": "#4a3236", "cterm": "52"  }   " dark muted red
-let s:delfg     = { "gui": "#e0b3b3", "cterm": "181" }   " soft red
-let s:changebg  = { "gui": "#343e55", "cterm": "60"  }   " dark muted blue
-let s:changefg  = { "gui": "#c5c9e6", "cterm": "189" }   " soft blue
+" Gentle Monokai-hued diff colors (paste after the palette)
 
-" apply to diff
+" closer to Monokai green/pink, dimmed backgrounds
+let s:addbg    = { "gui": "#2f3a1f", "cterm": "58" }   " dark olive tint of Monokai green
+let s:addfg    = { "gui": "#B5E04A", "cterm": "148" }  " soft Monokai green
+let s:delbg    = { "gui": "#3a2230", "cterm": "53" }   " dark magenta tint of Monokai pink
+let s:delfg    = { "gui": "#FF77AA", "cterm": "211" }  " soft Monokai pink
+let s:changebg = { "gui": "#233240", "cterm": "24" }   " subdued blue for changed
+let s:changefg = { "gui": "#B7C9FF", "cterm": "189" }  " gentle contrast text
+
+" apply to core diff groups
 call s:h("DiffAdd",       { "fg": s:addfg,    "bg": s:addbg })
 call s:h("DiffDelete",    { "fg": s:delfg,    "bg": s:delbg })
 call s:h("DiffChange",    { "fg": s:changefg, "bg": s:changebg })
-call s:h("DiffText",      { "fg": s:white2,   "bg": s:changebg, "format": "bold" })
+call s:h("DiffText",      { "fg": s:white2,   "bg": s:changebg })
 
-" apply to gitsigns (subtle sign colors; keep signcolumn bg)
-call s:h("GitSignsAdd",    { "fg": { "gui": "#7fbf8e", "cterm": "108" }, "bg": s:lightblack })
-call s:h("GitSignsChange", { "fg": { "gui": "#8aa3d1", "cterm": "110" }, "bg": s:lightblack })
-call s:h("GitSignsDelete", { "fg": { "gui": "#d18a8a", "cterm": "174" }, "bg": s:lightblack })
+" apply to gitsigns (sign column colors, subtle but Monokai-leaning)
+call s:h("GitSignsAdd",    { "fg": { "gui": "#8FCF4A", "cterm": "113" }, "bg": s:lightblack })
+call s:h("GitSignsChange", { "fg": { "gui": "#8AA3D1", "cterm": "110" }, "bg": s:lightblack })
+call s:h("GitSignsDelete", { "fg": { "gui": "#FF6FA3", "cterm": "205" }, "bg": s:lightblack })
+
 
 " fold
 call s:h("Folded",        { "fg": s:warmgrey,   "bg": s:darkblack })
