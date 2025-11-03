@@ -153,11 +153,24 @@ call s:h("SpecialKey",    { "fg": s:pink })
 call s:h("Title",         { "fg": s:yellow })
 call s:h("Directory",     { "fg": s:aqua })
 
-" diff
-call s:h("DiffAdd",       { "fg": s:addfg,      "bg": s:addbg })
-call s:h("DiffDelete",    { "fg": s:delfg,      "bg": s:delbg })
-call s:h("DiffChange",    { "fg": s:changefg,   "bg": s:changebg })
-call s:h("DiffText",      { "fg": s:black,      "bg": s:aqua })
+" dimmer diff palette
+let s:addbg     = { "gui": "#30433a", "cterm": "22"  }   " dark desaturated green
+let s:addfg     = { "gui": "#b9e3c0", "cterm": "151" }   " soft green
+let s:delbg     = { "gui": "#4a3236", "cterm": "52"  }   " dark muted red
+let s:delfg     = { "gui": "#e0b3b3", "cterm": "181" }   " soft red
+let s:changebg  = { "gui": "#343e55", "cterm": "60"  }   " dark muted blue
+let s:changefg  = { "gui": "#c5c9e6", "cterm": "189" }   " soft blue
+
+" apply to diff
+call s:h("DiffAdd",       { "fg": s:addfg,    "bg": s:addbg })
+call s:h("DiffDelete",    { "fg": s:delfg,    "bg": s:delbg })
+call s:h("DiffChange",    { "fg": s:changefg, "bg": s:changebg })
+call s:h("DiffText",      { "fg": s:white2,   "bg": s:changebg, "format": "bold" })
+
+" apply to gitsigns (subtle sign colors; keep signcolumn bg)
+call s:h("GitSignsAdd",    { "fg": { "gui": "#7fbf8e", "cterm": "108" }, "bg": s:lightblack })
+call s:h("GitSignsChange", { "fg": { "gui": "#8aa3d1", "cterm": "110" }, "bg": s:lightblack })
+call s:h("GitSignsDelete", { "fg": { "gui": "#d18a8a", "cterm": "174" }, "bg": s:lightblack })
 
 " fold
 call s:h("Folded",        { "fg": s:warmgrey,   "bg": s:darkblack })
@@ -286,15 +299,6 @@ call s:h("NERDTreeDir",             { "fg": s:grey })
 " --------
 
 call s:h("NvimTreeRootFolder",      { "fg": s:pink })
-
-
-" Gitsigns
-" --------
-
-call s:h("GitSignsAdd",    { "fg": s:addfg, "bg": s:lightblack })
-call s:h("GitSignsChange", { "fg": s:changefg, "bg": s:lightblack })
-call s:h("GitSignsDelete", { "fg": s:delfg, "bg": s:lightblack })
-
 
 " Syntastic
 " ---------
