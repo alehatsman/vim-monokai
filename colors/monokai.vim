@@ -104,7 +104,7 @@ let s:br_yellow   = { "gui": "#E7C547", "cterm": "221" }
 let s:br_blue     = { "gui": "#7AA6DA", "cterm": "110" }
 let s:br_purple   = { "gui": "#B77EE0", "cterm": "140" }
 let s:br_cyan     = { "gui": "#54CED6", "cterm": "80" }
-let s:br_white    = { "gui": "#FFFFFF", "cterm": "16" }
+let s:br_white    = { "gui": "#FFFFFF", "cterm": "231" }
 
 " Highlighting 
 " ------------
@@ -325,24 +325,16 @@ call s:h("DapUIWatchesError", { "fg": s:pink })
 call s:h("DapUIBreakpointsPath", { "fg": s:yellow })
 call s:h("DapUIBreakpointsInfo", { "fg": s:green })
 call s:h("DapUIBreakpointsCurrentLine", { "fg": s:green, "format": "bold" })
-
 hi link DapUICurrentFrameName DapUIBreakpointsCurrentLine
-
 call s:h("DapUIStepOver", { "fg": s:aqua })
 call s:h("DapUIStepInto", { "fg": s:aqua })
 call s:h("DapUIStepBack", { "fg": s:aqua })
 call s:h("DapUIStepOut", { "fg": s:aqua })
-
 call s:h("DapUIPlayPause", { "fg": s:green })
 call s:h("DapUIRestart", { "fg": s:green })
-
 call s:h("DapUIStop", { "fg": s:pink })
-
-call s:h("DapUIBreakpointsDisabledLine", { "fg": s: })
-
-hi DapUIBreakpointsDisabledLine guifg=#424242
+call s:h("DapUIBreakpointsDisabledLine", { "fg": s:darkgrey })
 hi DapUIUnavailable guifg=#424242
-
 
 " coc
 " ---
