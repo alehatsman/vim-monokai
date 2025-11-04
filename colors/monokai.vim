@@ -164,10 +164,14 @@ let s:changebg = { "gui": "#233240", "cterm": "24" }   " subdued blue for change
 let s:changefg = { "gui": "#B7C9FF", "cterm": "189" }  " gentle contrast text
 
 " apply to core diff groups
-call s:h("DiffAdd",       { "fg": s:addfg,    "bg": s:addbg })
-call s:h("DiffDelete",    { "fg": s:delfg,    "bg": s:delbg })
-call s:h("DiffChange",    { "fg": s:changefg, "bg": s:changebg })
-call s:h("DiffText",      { "fg": s:white2,   "bg": s:changebg })
+" call s:h("DiffAdd",    { "bg": s:lightblack2 })   " dim green-ish background comes from existing palette
+" call s:h("DiffDelete", { "bg": s:lightblack3 })   " dim red-ish background
+call s:h("DiffChange", { "bg": s:lightblack })    " neutral background for changed
+call s:h("DiffText",   { "bg": s:lightblack })    " do not override fg
+
+call s:h("DiffAdd",    { "bg": s:green })    " subtle Monokai green wash
+call s:h("DiffDelete", { "bg": s:pink })     " subtle Monokai pink wash
+
 
 " apply to gitsigns (sign column colors, subtle but Monokai-leaning)
 call s:h("GitSignsAdd",    { "fg": { "gui": "#8FCF4A", "cterm": "113" }, "bg": s:lightblack })
