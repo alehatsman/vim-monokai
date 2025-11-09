@@ -332,7 +332,8 @@ hi def link NERDTreeBookmarksHeader     Title
 hi def link NERDTreeBookmarksLeader     NonText
 hi def link NERDTreeBookmarkName        Directory
 
-hi def link NvimTreeRootFolder          Directory
+call s:h('RootFolder', { 'fg': s:pink })
+hi def link NvimTreeRootFolder RootFolder
 
 hi def link SyntasticErrorSign          DiagnosticError
 hi def link SyntasticWarningSign        DiagnosticWarn
