@@ -111,7 +111,9 @@ let s:diff_add_bg     = { 'gui': '#2a331d', 'cterm': '22' }
 let s:diff_add_fg     = s:green
 let s:diff_delete_bg  = { 'gui': '#3a2226', 'cterm': '52' }
 let s:diff_delete_fg  = s:pink
-let s:diff_change_fg = { 'gui': '#E6DB74', 'cterm': '186' } " yellow
+let s:diff_change_bg  = { 'gui': '#3a3520', 'cterm': '94' }
+let s:diff_change_fg  = s:yellow
+
 
 " }}}
 " ============================================================================
