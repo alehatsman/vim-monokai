@@ -116,6 +116,10 @@ let s:diff_change_fg  = s:aqua
 " }}}
 " Core editor {{{
 
+if has('termguicolors')
+  set termguicolors
+endif
+
 if g:monokai_transparent
   call s:h('Normal',       { 'fg': s:white })
 else
@@ -139,7 +143,9 @@ call s:h('WarningMsg',     { 'fg': s:red })
 call s:h('VertSplit',      { 'fg': s:darkgrey,   'bg': s:darkblack })
 call s:h('WinSeparator',   { 'fg': s:darkgrey,   'bg': s:darkblack })
 call s:h('LineNr',         { 'fg': s:grey,       'bg': s:lightblack })
-call s:h('CursorLineNr',   { 'fg': s:orange,     'bg': s:lightblack })
+call s:h('CursorLineNr',   { 'fg': s:orange,     'bg': s:lightblack2, 'format': 'bold' })
+call s:h('Whitespace',     { 'fg': s:lightgrey })
+call s:h('EndOfBuffer',    { 'fg': s:lightblack })
 
 if g:monokai_transparent
   call s:h('SignColumn',   { })
@@ -153,6 +159,20 @@ if g:monokai_dim_inactive
   else
     call s:h('NormalNC', { 'fg': s:grey, 'bg': s:lightblack })
   endif
+endif
+
+" Extra UI
+call s:h('QuickFixLine',   { 'fg': s:white,     'bg': s:lightblack2, 'format': 'bold' })
+call s:h('Substitute',     { 'fg': s:black,     'bg': s:orange, 'format': 'bold' })
+call s:h('IncSearch',      { 'fg': s:black,     'bg': s:orange, 'format': 'bold' })
+call s:h('CurSearch',      { 'fg': s:black,     'bg': s:br_yellow })
+
+if g:monokai_transparent
+  call s:h('WinBar',       { 'fg': s:grey })
+  call s:h('StatusColumn', { 'fg': s:grey })
+else
+  call s:h('WinBar',       { 'fg': s:grey,      'bg': s:lightblack })
+  call s:h('StatusColumn', { 'fg': s:grey,      'bg': s:lightblack })
 endif
 
 " }}}
@@ -181,11 +201,12 @@ call s:h('Title',          { 'fg': s:yellow })
 call s:h('Directory',      { 'fg': s:aqua })
 
 call s:h('Folded',         { 'fg': s:warmgrey,   'bg': s:darkblack })
-call s:h('FoldColumn',     {                     'bg': s:darkblack })
+call s:h('FoldColumn',     { 'fg': s:grey,       'bg': s:lightblack })
 
 call s:h('Pmenu',          { 'fg': s:white2,     'bg': s:darkblack })
 call s:h('PmenuSel',       { 'fg': s:aqua,       'bg': s:darkblack, 'format': 'reverse,bold' })
-call s:h('PmenuThumb',     { 'fg': s:lightblack, 'bg': s:grey })
+call s:h('PmenuThumb',     {                     'bg': s:grey })
+call s:h('PmenuSbar',      {                     'bg': s:lightblack })
 
 call s:h('NormalFloat',    { 'fg': s:white2,     'bg': s:darkblack })
 
@@ -243,6 +264,16 @@ call s:h('GitSignsAdd',    { 'fg': { 'gui': '#8FCF4A', 'cterm': '113' } })
 call s:h('GitSignsChange', { 'fg': { 'gui': '#7AA6DA', 'cterm': '110' } })
 call s:h('GitSignsDelete', { 'fg': { 'gui': '#FF6FA3', 'cterm': '205' } })
 
+hi def link diffAdded   DiffAdd
+hi def link diffChanged DiffChange
+hi def link diffRemoved DiffDelete
+
+hi def link gitcommitSummary       Normal
+hi def link gitcommitOverflow      Error
+hi def link gitcommitUntracked     Comment
+hi def link gitcommitDiscarded     Comment
+hi def link gitcommitSelected      Comment
+
 " }}}
 " Diagnostics {{{
 
@@ -250,11 +281,25 @@ call s:h('DiagnosticError',         { 'fg': s:red })
 call s:h('DiagnosticWarn',          { 'fg': s:orange })
 call s:h('DiagnosticInfo',          { 'fg': s:yellow })
 call s:h('DiagnosticHint',          { 'fg': s:grey })
+call s:h('DiagnosticOk',            { 'fg': s:green })
+call s:h('DiagnosticUnnecessary',   { 'fg': s:grey })
+
+hi def link DiagnosticSignError DiagnosticError
+hi def link DiagnosticSignWarn  DiagnosticWarn
+hi def link DiagnosticSignInfo  DiagnosticInfo
+hi def link DiagnosticSignHint  DiagnosticHint
+hi def link DiagnosticSignOk    DiagnosticOk
 
 call s:h('DiagnosticUnderlineError',{ 'sp': s:red,    'format': 'undercurl' })
 call s:h('DiagnosticUnderlineWarn', { 'sp': s:orange, 'format': 'undercurl' })
 call s:h('DiagnosticUnderlineInfo', { 'sp': s:aqua,   'format': 'undercurl' })
 call s:h('DiagnosticUnderlineHint', { 'sp': s:grey,   'format': 'undercurl' })
+
+call s:h('DiagnosticVirtualTextError', { 'fg': s:red,    'bg': s:lightblack3 })
+call s:h('DiagnosticVirtualTextWarn',  { 'fg': s:orange, 'bg': s:lightblack3 })
+call s:h('DiagnosticVirtualTextInfo',  { 'fg': s:yellow, 'bg': s:lightblack3 })
+call s:h('DiagnosticVirtualTextHint',  { 'fg': s:grey,   'bg': s:lightblack3 })
+call s:h('DiagnosticVirtualTextOk',    { 'fg': s:green,  'bg': s:lightblack3 })
 
 " }}}
 " Language-specific accents {{{
@@ -316,6 +361,7 @@ hi def link NERDTreeBookmarksLeader  NonText
 hi def link NERDTreeBookmarkName     Directory
 
 hi def link NvimTreeRootFolder       Directory
+hi def link NvimTreeFolderIcon       Directory
 
 hi def link SyntasticErrorSign       DiagnosticError
 hi def link SyntasticWarningSign     DiagnosticWarn
@@ -336,6 +382,44 @@ hi def link CocErrorSign             DiagnosticError
 hi def link CocWarningSign           DiagnosticWarn
 hi def link CocInfoSign              DiagnosticInfo
 hi def link CocHintSign              DiagnosticHint
+
+" NvimTree extended
+if has('nvim')
+  if g:monokai_transparent
+    call s:h('NvimTreeNormal',       { 'fg': s:white })
+    call s:h('NvimTreeEndOfBuffer',  { 'fg': s:lightblack })
+  else
+    call s:h('NvimTreeNormal',       { 'fg': s:white, 'bg': s:black })
+    call s:h('NvimTreeEndOfBuffer',  { 'fg': s:lightblack, 'bg': s:black })
+  endif
+  call s:h('NvimTreeWinSeparator',   { 'fg': s:darkgrey, 'bg': s:darkblack })
+  hi def link NvimTreeFolderIcon     Directory
+  call s:h('NvimTreeGitDirty',       { 'fg': s:orange })
+  call s:h('NvimTreeGitNew',         { 'fg': s:green })
+  call s:h('NvimTreeGitDeleted',     { 'fg': s:pink })
+  call s:h('NvimTreeGitIgnored',     { 'fg': s:warmgrey })
+endif
+
+" Telescope maps to Float* to keep borders consistent
+hi def link TelescopeNormal          NormalFloat
+hi def link TelescopeBorder          FloatBorder
+hi def link TelescopeTitle           FloatTitle
+hi def link TelescopePromptNormal    NormalFloat
+hi def link TelescopePromptBorder    FloatBorder
+hi def link TelescopeResultsNormal   NormalFloat
+hi def link TelescopeResultsBorder   FloatBorder
+hi def link TelescopePreviewNormal   NormalFloat
+hi def link TelescopePreviewBorder   FloatBorder
+call s:h('TelescopeSelection', { 'fg': s:white, 'bg': s:lightblack2, 'format': 'bold' })
+
+" Float border/title with transparency awareness
+if g:monokai_transparent
+  call s:h('FloatBorder',    { 'fg': s:darkgrey })
+  call s:h('FloatTitle',     { 'fg': s:yellow, 'format': 'bold' })
+else
+  call s:h('FloatBorder',    { 'fg': s:darkgrey, 'bg': s:darkblack })
+  call s:h('FloatTitle',     { 'fg': s:yellow,   'bg': s:darkblack, 'format': 'bold' })
+endif
 
 " }}}
 " Tree-sitter (opinionated Monokai mapping) {{{
@@ -404,6 +488,38 @@ if has('nvim')
   " Namespaces / modules
   call s:h('@namespace',                { 'fg': s:aqua })
 
+  " Link-based dedup
+  hi def link @function.call           @function
+  hi def link @function.method         @function
+  hi def link @function.method.call    @function
+  hi def link @variable.member         @field
+  hi def link @property                @field
+  hi def link @punctuation             @punctuation.delimiter
+
+  " Newer captures
+  call s:h('@module',                  { 'fg': s:aqua })
+  call s:h('@decorator',               { 'fg': s:purple })
+  call s:h('@string.special.url',      { 'fg': s:orange, 'format': 'underline' })
+  call s:h('@string.special.path',     { 'fg': s:yellow })
+  call s:h('@string.special.symbol',   { 'fg': s:purple })
+  call s:h('@comment.todo',            { 'fg': s:orange, 'format': 'bold,italic' })
+  call s:h('@markup.link',             { 'fg': s:aqua })
+  call s:h('@markup.link.label',       { 'fg': s:green })
+  call s:h('@markup.link.url',         { 'fg': s:orange, 'format': 'underline' })
+
+  " LSP semantic tokens
+  hi def link @lsp.type.class          @type
+  hi def link @lsp.type.enum           @type
+  hi def link @lsp.type.enumMember     @constant
+  hi def link @lsp.type.function       @function
+  hi def link @lsp.type.method         @function
+  hi def link @lsp.type.interface      @type
+  hi def link @lsp.type.namespace      @namespace
+  hi def link @lsp.type.parameter      @variable.parameter
+  hi def link @lsp.type.property       @field
+  hi def link @lsp.type.type           @type
+  hi def link @lsp.type.typeParameter  @type
+  hi def link @lsp.type.variable       @variable
 endif
 
 " }}}
