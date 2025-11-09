@@ -1,4 +1,4 @@
-" monokai.vim (refactored)
+" monokai.vim (extended, opinionated, Tree-sitter aware)
 
 if !has('gui_running') && &t_Co < 256
   finish
@@ -33,6 +33,8 @@ endif
 
 let colors_name = 'monokai'
 
+" Utils {{{
+
 function! s:parse_format(raw, allow_italic) abort
   if a:raw ==# '' || a:raw ==# 'NONE'
     return 'NONE'
@@ -60,7 +62,7 @@ function! s:h(group, style) abort
 
   execute 'highlight' a:group
         \ 'guifg='   . (has_key(a:style, 'fg') ? a:style.fg.gui : 'NONE')
-        \ 'guibg='   . (has_key(a:style, 'bg') ? a:style.bg.gui : (g:monokai_transparent && a:group ==# 'Normal' ? 'NONE' : 'NONE'))
+        \ 'guibg='   . (has_key(a:style, 'bg') ? a:style.bg.gui : 'NONE')
         \ 'guisp='   . (has_key(a:style, 'sp') ? a:style.sp.gui : 'NONE')
         \ 'gui='     . (l:guiformat ==# '' ? 'NONE' : l:guiformat)
         \ 'ctermfg=' . l:ctermfg
@@ -68,7 +70,8 @@ function! s:h(group, style) abort
         \ 'cterm='   . (l:ctermformat ==# '' ? 'NONE' : l:ctermformat)
 endfunction
 
-" Palette
+" }}}
+" Palette {{{
 
 let s:white       = { 'gui': '#E8E8E3', 'cterm': '252' }
 let s:white2      = { 'gui': '#d8d8d3', 'cterm': '250' }
@@ -101,7 +104,7 @@ let s:br_purple   = { 'gui': '#B77EE0', 'cterm': '140' }
 let s:br_cyan     = { 'gui': '#54CED6', 'cterm': '80' }
 let s:br_white    = { 'gui': '#FFFFFF', 'cterm': '231' }
 
-" Diff palette (gentle Monokai)
+" Diff palette
 
 let s:diff_add_bg     = { 'gui': '#2a331d', 'cterm': '22' }
 let s:diff_add_fg     = s:green
@@ -110,7 +113,8 @@ let s:diff_delete_fg  = s:pink
 let s:diff_change_bg  = { 'gui': '#222933', 'cterm': '17' }
 let s:diff_change_fg  = s:aqua
 
-" Core editor
+" }}}
+" Core editor {{{
 
 if g:monokai_transparent
   call s:h('Normal',       { 'fg': s:white })
@@ -137,7 +141,9 @@ call s:h('WinSeparator',   { 'fg': s:darkgrey,   'bg': s:darkblack })
 call s:h('LineNr',         { 'fg': s:grey,       'bg': s:lightblack })
 call s:h('CursorLineNr',   { 'fg': s:orange,     'bg': s:lightblack })
 
-if !g:monokai_transparent
+if g:monokai_transparent
+  call s:h('SignColumn',   { })
+else
   call s:h('SignColumn',   {                     'bg': s:lightblack })
 endif
 
@@ -149,7 +155,8 @@ if g:monokai_dim_inactive
   endif
 endif
 
-" Statusline / Tabline
+" }}}
+" Statusline / Tabline {{{
 
 call s:h('StatusLine',     { 'fg': s:black,      'bg': s:lightgrey })
 call s:h('StatusLineNC',   { 'fg': s:lightgrey,  'bg': s:darkblack })
@@ -161,26 +168,29 @@ call s:h('User2',          { 'fg': s:orange,     'bg': s:lightgrey, 'format': 'b
 call s:h('User3',          { 'fg': s:purple,     'bg': s:lightgrey, 'format': 'bold' })
 call s:h('User4',          { 'fg': s:aqua,       'bg': s:lightgrey, 'format': 'bold' })
 
-" Spell
+" }}}
+" Spell / Misc / UI {{{
 
 call s:h('SpellBad',       { 'fg': s:red,        'format': 'undercurl' })
 call s:h('SpellCap',       { 'fg': s:purple,     'format': 'underline' })
 call s:h('SpellRare',      { 'fg': s:aqua,       'format': 'underline' })
 call s:h('SpellLocal',     { 'fg': s:pink,       'format': 'underline' })
 
-" Misc
-
 call s:h('SpecialKey',     { 'fg': s:pink })
 call s:h('Title',          { 'fg': s:yellow })
 call s:h('Directory',      { 'fg': s:aqua })
+
 call s:h('Folded',         { 'fg': s:warmgrey,   'bg': s:darkblack })
 call s:h('FoldColumn',     {                     'bg': s:darkblack })
+
 call s:h('Pmenu',          { 'fg': s:white2,     'bg': s:darkblack })
 call s:h('PmenuSel',       { 'fg': s:aqua,       'bg': s:darkblack, 'format': 'reverse,bold' })
 call s:h('PmenuThumb',     { 'fg': s:lightblack, 'bg': s:grey })
+
 call s:h('NormalFloat',    { 'fg': s:white2,     'bg': s:darkblack })
 
-" Generic syntax
+" }}}
+" Generic syntax {{{
 
 call s:h('Constant',       { 'fg': s:purple })
 call s:h('Number',         { 'fg': s:purple })
@@ -221,20 +231,20 @@ call s:h('Underlined',     { 'fg': s:green })
 call s:h('Ignore',         {} )
 call s:h('Error',          { 'fg': s:purered,   'bg': s:lightblack3 })
 
-" Diff
+" }}}
+" Diff / Git {{{
 
 call s:h('DiffAdd',        { 'fg': s:diff_add_fg,    'bg': s:diff_add_bg })
 call s:h('DiffDelete',     { 'fg': s:diff_delete_fg, 'bg': s:diff_delete_bg })
 call s:h('DiffChange',     { 'fg': s:diff_change_fg, 'bg': s:diff_change_bg })
 call s:h('DiffText',       { 'fg': s:white,          'bg': s:diff_change_bg, 'format': 'bold' })
 
-" GitSigns (signs only)
-
 call s:h('GitSignsAdd',    { 'fg': { 'gui': '#8FCF4A', 'cterm': '113' } })
 call s:h('GitSignsChange', { 'fg': { 'gui': '#7AA6DA', 'cterm': '110' } })
 call s:h('GitSignsDelete', { 'fg': { 'gui': '#FF6FA3', 'cterm': '205' } })
 
-" Diagnostics
+" }}}
+" Diagnostics {{{
 
 call s:h('DiagnosticError',         { 'fg': s:red })
 call s:h('DiagnosticWarn',          { 'fg': s:orange })
@@ -246,13 +256,17 @@ call s:h('DiagnosticUnderlineWarn', { 'sp': s:orange, 'format': 'undercurl' })
 call s:h('DiagnosticUnderlineInfo', { 'sp': s:aqua,   'format': 'undercurl' })
 call s:h('DiagnosticUnderlineHint', { 'sp': s:grey,   'format': 'undercurl' })
 
-" Language-specific (minimal, reuse core groups)
+" }}}
+" Language-specific accents {{{
 
+" Markdown
 call s:h('markdownCode',            { 'fg': s:purple, 'format': 'italic' })
 call s:h('markdownListMarker',      { 'fg': s:purple })
 
+" Vim
 call s:h('vimCommand',              { 'fg': s:pink })
 
+" HTML / XML / JSX
 call s:h('htmlTag',                 { 'fg': s:pink })
 call s:h('htmlEndTag',              { 'fg': s:white })
 call s:h('htmlTagName',             { 'fg': s:pink })
@@ -270,6 +284,7 @@ call s:h('jsxTagName',              { 'fg': s:pink })
 call s:h('jsxComponentName',        { 'fg': s:pink })
 call s:h('jsxAttrib',               { 'fg': s:green })
 
+" CSS
 call s:h('cssProp',                 { 'fg': s:yellow })
 call s:h('cssUIAttr',               { 'fg': s:yellow })
 call s:h('cssFunctionName',         { 'fg': s:aqua })
@@ -282,12 +297,12 @@ call s:h('cssBraces',               { 'fg': s:white })
 call s:h('cssClassNameDot',         { 'fg': s:pink })
 call s:h('cssURL',                  { 'fg': s:orange, 'format': 'underline,italic' })
 
-" Parameters / constructors for various languages
-
+" Parameters / constructors
 call s:h('Parameter',               { 'fg': s:orange })
 call s:h('Constructor',             { 'fg': s:aqua, 'format': 'italic' })
 
-" Plugin/link groups
+" }}}
+" Plugin groups / links {{{
 
 hi def link NERDTreeDir              Directory
 hi def link NERDTreeDirSlash         Directory
@@ -322,48 +337,77 @@ hi def link CocWarningSign           DiagnosticWarn
 hi def link CocInfoSign              DiagnosticInfo
 hi def link CocHintSign              DiagnosticHint
 
-" Tree-sitter mappings
+" }}}
+" Tree-sitter (opinionated Monokai mapping) {{{
 
 if has('nvim')
-  hi def link @comment               Comment
-  hi def link @string                String
-  hi def link @string.regex          String
-  hi def link @character             Character
-  hi def link @number                Number
-  hi def link @boolean               Boolean
-  hi def link @constant              Constant
-  hi def link @constant.builtin      Constant
-  hi def link @type                  Type
-  hi def link @type.builtin          Type
-  hi def link @type.qualifier        Keyword
-  hi def link @attribute             Identifier
-  hi def link @function              Function
-  hi def link @function.call         Function
-  hi def link @method                Function
-  hi def link @method.call           Function
-  hi def link @constructor           Constructor
-  hi def link @parameter             Parameter
-  hi def link @variable              Identifier
-  hi def link @variable.builtin      Identifier
-  hi def link @field                 Identifier
-  hi def link @property              Identifier
-  hi def link @namespace             Identifier
-  hi def link @keyword               Keyword
-  hi def link @keyword.function      Keyword
-  hi def link @operator              Operator
-  hi def link @punctuation           Delimiter
-  hi def link @punctuation.delimiter Delimiter
-  hi def link @punctuation.bracket   Delimiter
-  hi def link @punctuation.special   Delimiter
-  hi def link @tag                   htmlTag
-  hi def link @tag.attribute         htmlArg
+  " Comments / text
+  hi def link @comment                  Comment
+  hi def link @comment.documentation    Comment
 
-  hi def link @function.builtin      Keyword
-  hi def link @function.call         Function
-  hi def link @method.call           Function
+  " Literals
+  hi def link @string                   String
+  hi def link @string.regex             String
+  hi def link @string.escape            SpecialChar
+  hi def link @character                Character
+  hi def link @number                   Number
+  hi def link @float                    Float
+  hi def link @boolean                  Boolean
+
+  " Constants
+  call s:h('@constant',                 { 'fg': s:purple })
+  call s:h('@constant.builtin',         { 'fg': s:aqua })
+  call s:h('@constant.macro',           { 'fg': s:green })
+
+  " Types
+  call s:h('@type',                     { 'fg': s:aqua, 'format': 'italic' })
+  call s:h('@type.builtin',             { 'fg': s:aqua })
+  call s:h('@type.qualifier',           { 'fg': s:pink })
+  call s:h('@attribute',                { 'fg': s:purple })
+  call s:h('@attribute.builtin',        { 'fg': s:purple })
+
+  " Identifiers
+  call s:h('@variable',                 { 'fg': s:white })
+  call s:h('@variable.builtin',         { 'fg': s:purple })
+  call s:h('@variable.parameter',       { 'fg': s:orange })
+  call s:h('@variable.parameter.builtin',{ 'fg': s:orange })
+  call s:h('@variable.member',          { 'fg': s:white2 })
+  call s:h('@field',                    { 'fg': s:white2 })
+  call s:h('@property',                 { 'fg': s:white2 })
+
+  " Functions
+  call s:h('@function',                 { 'fg': s:green })
+  call s:h('@function.builtin',         { 'fg': s:aqua })
+  call s:h('@function.call',            { 'fg': s:green })
+  call s:h('@function.method',          { 'fg': s:green })
+  call s:h('@function.method.call',     { 'fg': s:green })
+  call s:h('@constructor',              { 'fg': s:aqua, 'format': 'italic' })
+
+  " Keywords / operators
+  call s:h('@keyword',                  { 'fg': s:pink })
+  call s:h('@keyword.function',         { 'fg': s:pink })
+  call s:h('@keyword.operator',         { 'fg': s:pink })
+  call s:h('@keyword.return',           { 'fg': s:pink })
+  call s:h('@operator',                 { 'fg': s:pink })
+
+  " Punctuation
+  call s:h('@punctuation.delimiter',    { 'fg': s:pink })
+  call s:h('@punctuation.bracket',      { 'fg': s:white })
+  call s:h('@punctuation.special',      { 'fg': s:purple })
+
+  " Tags (HTML/JSX)
+  call s:h('@tag',                      { 'fg': s:pink })
+  call s:h('@tag.builtin',              { 'fg': s:pink })
+  call s:h('@tag.attribute',            { 'fg': s:green })
+  call s:h('@tag.delimiter',            { 'fg': s:white })
+
+  " Namespaces / modules
+  call s:h('@namespace',                { 'fg': s:aqua })
+
 endif
 
-" Terminal colors
+" }}}
+" Terminal {{{
 
 if has('nvim')
   let g:terminal_color_0  = s:black.gui
@@ -401,3 +445,5 @@ else
         \ s:br_cyan.gui,
         \ s:br_white.gui ]
 endif
+
+" }}}
