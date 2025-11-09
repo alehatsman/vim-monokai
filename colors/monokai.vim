@@ -447,3 +447,134 @@ else
 endif
 
 " }}}
+
+" === Monokai improvements patch ===
+
+" Optional: enable truecolor if supported
+if has('termguicolors')
+  set termguicolors
+endif
+
+" --- Core/UI additions ---
+call s:h('FloatBorder',    { 'fg': s:darkgrey,  'bg': g:monokai_transparent ? {}->get('bg','NONE') : s:darkblack })
+call s:h('FloatTitle',     { 'fg': s:yellow,    'bg': g:monokai_transparent ? {}->get('bg','NONE') : s:darkblack, 'format': 'bold' })
+call s:h('QuickFixLine',   { 'fg': s:white,     'bg': s:lightblack2, 'format': 'bold' })
+call s:h('Substitute',     { 'fg': s:black,     'bg': s:orange, 'format': 'bold' })
+call s:h('IncSearch',      { 'fg': s:black,     'bg': s:orange, 'format': 'bold' })
+call s:h('CurSearch',      { 'fg': s:black,     'bg': s:br_yellow })
+call s:h('Whitespace',     { 'fg': s:lightgrey })
+call s:h('EndOfBuffer',    { 'fg': s:lightblack })
+call s:h('WinBar',         { 'fg': s:grey,      'bg': g:monokai_transparent ? {}->get('bg','NONE') : s:lightblack })
+call s:h('StatusColumn',   { 'fg': s:grey,      'bg': g:monokai_transparent ? {}->get('bg','NONE') : s:lightblack })
+call s:h('CursorLineSign', {                     'bg': s:lightblack2 })
+call s:h('CursorLineFold', {                     'bg': s:lightblack2 })
+" stronger fold contrast
+call s:h('FoldColumn',     { 'fg': s:grey,      'bg': s:lightblack })
+
+" Menus: add scrollbar color
+call s:h('PmenuSbar',      {                     'bg': s:lightblack })
+call s:h('PmenuThumb',     {                     'bg': s:grey })
+
+" Distinguish CursorLineNr slightly more
+call s:h('CursorLineNr',   { 'fg': s:orange,     'bg': s:lightblack2, 'format': 'bold' })
+
+" --- Diagnostics complete set ---
+hi def link DiagnosticSignError DiagnosticError
+hi def link DiagnosticSignWarn  DiagnosticWarn
+hi def link DiagnosticSignInfo  DiagnosticInfo
+hi def link DiagnosticSignHint  DiagnosticHint
+call s:h('DiagnosticOk',           { 'fg': s:green })
+hi def link DiagnosticSignOk       DiagnosticOk
+call s:h('DiagnosticUnnecessary',  { 'fg': s:grey })
+" Virtual text uses faint backgrounds for readability
+call s:h('DiagnosticVirtualTextError', { 'fg': s:red,    'bg': s:lightblack3 })
+call s:h('DiagnosticVirtualTextWarn',  { 'fg': s:orange, 'bg': s:lightblack3 })
+call s:h('DiagnosticVirtualTextInfo',  { 'fg': s:yellow, 'bg': s:lightblack3 })
+call s:h('DiagnosticVirtualTextHint',  { 'fg': s:grey,   'bg': s:lightblack3 })
+call s:h('DiagnosticVirtualTextOk',    { 'fg': s:green,  'bg': s:lightblack3 })
+
+" --- Git/diff ecosystem compatibility ---
+hi def link diffAdded   DiffAdd
+hi def link diffChanged DiffChange
+hi def link diffRemoved DiffDelete
+" basic gitcommit faces
+hi def link gitcommitSummary       Normal
+hi def link gitcommitOverflow      Error
+hi def link gitcommitUntracked     Comment
+hi def link gitcommitDiscarded     Comment
+hi def link gitcommitSelected      Comment
+
+" --- NvimTree minimal set ---
+if has('nvim')
+  if g:monokai_transparent
+    call s:h('NvimTreeNormal',     { 'fg': s:white })
+    call s:h('NvimTreeEndOfBuffer',{ 'fg': s:lightblack })
+  else
+    call s:h('NvimTreeNormal',     { 'fg': s:white, 'bg': s:black })
+    call s:h('NvimTreeEndOfBuffer',{ 'fg': s:lightblack, 'bg': s:black })
+  endif
+  call s:h('NvimTreeWinSeparator', { 'fg': s:darkgrey, 'bg': s:darkblack })
+  hi def link NvimTreeFolderIcon   Directory
+  call s:h('NvimTreeGitDirty',     { 'fg': s:orange })
+  call s:h('NvimTreeGitNew',       { 'fg': s:green })
+  call s:h('NvimTreeGitDeleted',   { 'fg': s:pink })
+  call s:h('NvimTreeGitIgnored',   { 'fg': s:warmgrey })
+endif
+
+" --- Telescope (bordered) ---
+hi def link TelescopeNormal  NormalFloat
+hi def link TelescopeBorder  FloatBorder
+hi def link TelescopeTitle   FloatTitle
+hi def link TelescopePromptNormal NormalFloat
+hi def link TelescopePromptBorder FloatBorder
+hi def link TelescopeResultsNormal NormalFloat
+hi def link TelescopeResultsBorder FloatBorder
+hi def link TelescopePreviewNormal NormalFloat
+hi def link TelescopePreviewBorder FloatBorder
+call s:h('TelescopeSelection', { 'fg': s:white, 'bg': s:lightblack2, 'format': 'bold' })
+
+" --- Treesitter additions & link-based dedup ---
+" Keep canonical faces then link derivatives
+hi def link @function.call           @function
+hi def link @function.method         @function
+hi def link @function.method.call    @function
+hi def link @variable.member         @field
+hi def link @property                @field
+hi def link @punctuation             @punctuation.delimiter
+
+" Newer captures
+call s:h('@module',                  { 'fg': s:aqua })
+call s:h('@decorator',               { 'fg': s:purple })
+call s:h('@string.special.url',      { 'fg': s:orange, 'format': 'underline' })
+call s:h('@string.special.path',     { 'fg': s:yellow })
+call s:h('@string.special.symbol',   { 'fg': s:purple })
+call s:h('@comment.todo',            { 'fg': s:orange, 'format': 'bold,italic' })
+" Markup/link (mdx, markdown)
+call s:h('@markup.link',             { 'fg': s:aqua })
+call s:h('@markup.link.label',       { 'fg': s:green })
+call s:h('@markup.link.url',         { 'fg': s:orange, 'format': 'underline' })
+
+" LSP semantic tokens (Neovim 0.9+)
+hi def link @lsp.type.class          @type
+hi def link @lsp.type.enum           @type
+hi def link @lsp.type.enumMember     @constant
+hi def link @lsp.type.function       @function
+hi def link @lsp.type.method         @function
+hi def link @lsp.type.interface      @type
+hi def link @lsp.type.namespace      @namespace
+hi def link @lsp.type.parameter      @variable.parameter
+hi def link @lsp.type.property       @field
+hi def link @lsp.type.type           @type
+hi def link @lsp.type.typeParameter  @type
+hi def link @lsp.type.variable       @variable
+
+" --- Optional: inactive windows dimming sync ---
+if exists('g:monokai_dim_inactive') && g:monokai_dim_inactive
+  if g:monokai_transparent
+    call s:h('NormalNC', { 'fg': s:grey })
+  else
+    call s:h('NormalNC', { 'fg': s:grey, 'bg': s:lightblack })
+  endif
+endif
+" === End patch ===
+
