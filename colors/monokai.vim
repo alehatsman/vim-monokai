@@ -362,6 +362,7 @@ hi def link NERDTreeBookmarkName     Directory
 
 hi def link NvimTreeRootFolder       Directory
 hi def link NvimTreeFolderIcon       Directory
+hi! NvimTreeFolderIcon guifg=#75715E ctermfg=59
 
 hi def link SyntasticErrorSign       DiagnosticError
 hi def link SyntasticWarningSign     DiagnosticWarn
