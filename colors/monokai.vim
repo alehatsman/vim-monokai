@@ -563,3 +563,57 @@ else
 endif
 
 " }}}
+
+" === Extras: LSP, references, indent guides, inlay hints ===
+
+" LSP code lens & references
+call s:h('LspCodeLens',            { 'fg': s:warmgrey })
+call s:h('LspCodeLensSeparator',   { 'fg': s:lightgrey })
+call s:h('LspReferenceText',       { 'bg': s:lightblack2 })
+call s:h('LspReferenceRead',       { 'bg': s:lightblack2 })
+call s:h('LspReferenceWrite',      { 'bg': s:lightblack2 })
+
+" Inlay hints (Neovim 0.10+)
+call s:h('LspInlayHint',           { 'fg': s:warmgrey, 'bg': s:lightblack })
+
+" Illuminate (or built-in LSP references fallback)
+hi def link IlluminatedWordText     LspReferenceText
+hi def link IlluminatedWordRead     LspReferenceRead
+hi def link IlluminatedWordWrite    LspReferenceWrite
+
+" Indent guides (indent-blankline.nvim or ibl.nvim)
+call s:h('IndentBlanklineChar',           { 'fg': s:lightblack3 })
+call s:h('IndentBlanklineContextChar',    { 'fg': s:darkgrey })
+hi def link IblIndent                     IndentBlanklineChar
+hi def link IblScope                      IndentBlanklineContextChar
+
+" Subtle popup/message areas (Neovim UI)
+call s:h('MsgArea',                { 'fg': s:white2, 'bg': s:darkblack })
+call s:h('MsgSeparator',           { 'fg': s:darkgrey, 'bg': s:darkblack })
+call s:h('FloatShadow',            { 'bg': { 'gui': '#000000', 'cterm': '16' } })
+call s:h('FloatShadowThrough',     { 'bg': { 'gui': '#000000', 'cterm': '16' } })
+
+" Completion item kinds (fallback when plugin not styling)
+hi def link CmpItemKindFunction    @function
+hi def link CmpItemKindMethod      @function
+hi def link CmpItemKindConstructor @constructor
+hi def link CmpItemKindVariable    @variable
+hi def link CmpItemKindField       @field
+hi def link CmpItemKindProperty    @property
+hi def link CmpItemKindClass       @type
+hi def link CmpItemKindInterface   @type
+hi def link CmpItemKindModule      @namespace
+hi def link CmpItemKindEnum        @type
+hi def link CmpItemKindEnumMember  @constant
+hi def link CmpItemKindConstant    @constant
+hi def link CmpItemKindKeyword     @keyword
+hi def link CmpItemKindSnippet     Special
+hi def link CmpItemKindFile        Directory
+hi def link CmpItemKindFolder       Directory
+
+" Telescope prompt title accent for clarity
+call s:h('TelescopeTitle',         { 'fg': s:yellow, 'bg': s:darkblack, 'format': 'bold' })
+
+" Git conflict markers (generic)
+call s:h('DiffConflict',           { 'fg': s:pink, 'bg': s:darkblack, 'format': 'bold' })
+
