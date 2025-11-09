@@ -33,7 +33,9 @@ endif
 
 let colors_name = 'monokai'
 
+" ============================================================================
 " Utils {{{
+" ============================================================================
 
 function! s:parse_format(raw, allow_italic) abort
   if a:raw ==# '' || a:raw ==# 'NONE'
@@ -53,25 +55,25 @@ function! s:parse_format(raw, allow_italic) abort
 endfunction
 
 function! s:h(group, style) abort
-  let l:rawfmt = get(a:style, 'format', 'NONE')
-  let l:ctermformat = s:parse_format(l:rawfmt, g:monokai_term_italic)
-  let l:guiformat  = s:parse_format(l:rawfmt, g:monokai_gui_italic)
-
-  let l:ctermfg = has_key(a:style, 'fg') ? a:style.fg.cterm : 'NONE'
-  let l:ctermbg = has_key(a:style, 'bg') ? a:style.bg.cterm : 'NONE'
-
+  let l:rawfmt     = get(a:style, 'format', 'NONE')
+  let l:ctermfmt   = s:parse_format(l:rawfmt, g:monokai_term_italic)
+  let l:guifmt     = s:parse_format(l:rawfmt, g:monokai_gui_italic)
+  let l:ctermfg    = has_key(a:style, 'fg') ? a:style.fg.cterm : 'NONE'
+  let l:ctermbg    = has_key(a:style, 'bg') ? a:style.bg.cterm : 'NONE'
   execute 'highlight' a:group
         \ 'guifg='   . (has_key(a:style, 'fg') ? a:style.fg.gui : 'NONE')
         \ 'guibg='   . (has_key(a:style, 'bg') ? a:style.bg.gui : 'NONE')
         \ 'guisp='   . (has_key(a:style, 'sp') ? a:style.sp.gui : 'NONE')
-        \ 'gui='     . (l:guiformat ==# '' ? 'NONE' : l:guiformat)
+        \ 'gui='     . (l:guifmt  ==# '' ? 'NONE' : l:guifmt)
         \ 'ctermfg=' . l:ctermfg
         \ 'ctermbg=' . l:ctermbg
-        \ 'cterm='   . (l:ctermformat ==# '' ? 'NONE' : l:ctermformat)
+        \ 'cterm='   . (l:ctermfmt ==# '' ? 'NONE' : l:ctermfmt)
 endfunction
 
 " }}}
+" ============================================================================
 " Palette {{{
+" ============================================================================
 
 let s:white       = { 'gui': '#E8E8E3', 'cterm': '252' }
 let s:white2      = { 'gui': '#d8d8d3', 'cterm': '250' }
@@ -105,7 +107,6 @@ let s:br_cyan     = { 'gui': '#54CED6', 'cterm': '80' }
 let s:br_white    = { 'gui': '#FFFFFF', 'cterm': '231' }
 
 " Diff palette
-
 let s:diff_add_bg     = { 'gui': '#2a331d', 'cterm': '22' }
 let s:diff_add_fg     = s:green
 let s:diff_delete_bg  = { 'gui': '#3a2226', 'cterm': '52' }
@@ -114,104 +115,91 @@ let s:diff_change_bg  = { 'gui': '#222933', 'cterm': '17' }
 let s:diff_change_fg  = s:aqua
 
 " }}}
+" ============================================================================
 " Core editor {{{
-
-if has('termguicolors')
-  set termguicolors
-endif
+" ============================================================================
 
 if g:monokai_transparent
   call s:h('Normal',       { 'fg': s:white })
 else
-  call s:h('Normal',       { 'fg': s:white,      'bg': s:black })
+  call s:h('Normal',       { 'fg': s:white, 'bg': s:black })
 endif
 
-call s:h('ColorColumn',    {                     'bg': s:lightblack })
+call s:h('ColorColumn',    {                    'bg': s:lightblack })
 call s:h('Conceal',        { 'fg': s:grey })
-call s:h('Cursor',         { 'fg': s:black,      'bg': s:white })
-call s:h('CursorColumn',   {                     'bg': s:lightblack2 })
-call s:h('CursorLine',     {                     'bg': s:lightblack2 })
+call s:h('Cursor',         { 'fg': s:black,     'bg': s:white })
+call s:h('CursorColumn',   {                    'bg': s:lightblack2 })
+call s:h('CursorLine',     {                    'bg': s:lightblack2 })
 call s:h('NonText',        { 'fg': s:lightgrey })
-call s:h('Visual',         {                     'bg': s:lightgrey })
-call s:h('Search',         { 'fg': s:black,      'bg': s:yellow })
+call s:h('Visual',         {                    'bg': s:lightgrey })
+call s:h('Search',         { 'fg': s:black,     'bg': s:yellow })
 call s:h('MatchParen',     { 'fg': s:purple,                     'format': 'bold' })
 call s:h('Question',       { 'fg': s:yellow })
 call s:h('ModeMsg',        { 'fg': s:yellow })
 call s:h('MoreMsg',        { 'fg': s:yellow })
-call s:h('ErrorMsg',       { 'fg': s:black,      'bg': s:red,    'format': 'standout' })
+call s:h('ErrorMsg',       { 'fg': s:black,     'bg': s:red,     'format': 'standout' })
 call s:h('WarningMsg',     { 'fg': s:red })
-call s:h('VertSplit',      { 'fg': s:darkgrey,   'bg': s:darkblack })
-call s:h('WinSeparator',   { 'fg': s:darkgrey,   'bg': s:darkblack })
-call s:h('LineNr',         { 'fg': s:grey,       'bg': s:lightblack })
-call s:h('CursorLineNr',   { 'fg': s:orange,     'bg': s:lightblack2, 'format': 'bold' })
-call s:h('Whitespace',     { 'fg': s:lightgrey })
-call s:h('EndOfBuffer',    { 'fg': s:lightblack })
+call s:h('VertSplit',      { 'fg': s:darkgrey,  'bg': s:darkblack })
+call s:h('WinSeparator',   { 'fg': s:darkgrey,  'bg': s:darkblack })
+call s:h('LineNr',         { 'fg': s:grey,      'bg': s:lightblack })
+call s:h('CursorLineNr',   { 'fg': s:orange,    'bg': s:lightblack })
 
 if g:monokai_transparent
   call s:h('SignColumn',   { })
 else
-  call s:h('SignColumn',   {                     'bg': s:lightblack })
+  call s:h('SignColumn',   {                    'bg': s:lightblack })
 endif
 
 if g:monokai_dim_inactive
   if g:monokai_transparent
-    call s:h('NormalNC', { 'fg': s:grey })
+    call s:h('NormalNC',   { 'fg': s:grey })
   else
-    call s:h('NormalNC', { 'fg': s:grey, 'bg': s:lightblack })
+    call s:h('NormalNC',   { 'fg': s:grey,     'bg': s:lightblack })
   endif
 endif
 
-" Extra UI
-call s:h('QuickFixLine',   { 'fg': s:white,     'bg': s:lightblack2, 'format': 'bold' })
-call s:h('Substitute',     { 'fg': s:black,     'bg': s:orange, 'format': 'bold' })
-call s:h('IncSearch',      { 'fg': s:black,     'bg': s:orange, 'format': 'bold' })
-call s:h('CurSearch',      { 'fg': s:black,     'bg': s:br_yellow })
-
-if g:monokai_transparent
-  call s:h('WinBar',       { 'fg': s:grey })
-  call s:h('StatusColumn', { 'fg': s:grey })
-else
-  call s:h('WinBar',       { 'fg': s:grey,      'bg': s:lightblack })
-  call s:h('StatusColumn', { 'fg': s:grey,      'bg': s:lightblack })
-endif
-
 " }}}
+" ============================================================================
 " Statusline / Tabline {{{
+" ============================================================================
 
-call s:h('StatusLine',     { 'fg': s:black,      'bg': s:lightgrey })
-call s:h('StatusLineNC',   { 'fg': s:lightgrey,  'bg': s:darkblack })
-call s:h('TabLine',        { 'fg': s:lightgrey,  'bg': s:lightblack })
-call s:h('TabLineSel',     { 'fg': s:darkblack,  'bg': s:warmgrey, 'format': 'bold' })
-call s:h('TabLineFill',    {                     'bg': s:lightblack })
-call s:h('User1',          { 'fg': s:yellow,     'bg': s:lightgrey, 'format': 'bold' })
-call s:h('User2',          { 'fg': s:orange,     'bg': s:lightgrey, 'format': 'bold' })
-call s:h('User3',          { 'fg': s:purple,     'bg': s:lightgrey, 'format': 'bold' })
-call s:h('User4',          { 'fg': s:aqua,       'bg': s:lightgrey, 'format': 'bold' })
+call s:h('StatusLine',     { 'fg': s:black,     'bg': s:lightgrey })
+call s:h('StatusLineNC',   { 'fg': s:lightgrey, 'bg': s:darkblack })
+call s:h('TabLine',        { 'fg': s:lightgrey, 'bg': s:lightblack })
+call s:h('TabLineSel',     { 'fg': s:darkblack, 'bg': s:warmgrey, 'format': 'bold' })
+call s:h('TabLineFill',    {                    'bg': s:lightblack })
+call s:h('User1',          { 'fg': s:yellow,    'bg': s:lightgrey, 'format': 'bold' })
+call s:h('User2',          { 'fg': s:orange,    'bg': s:lightgrey, 'format': 'bold' })
+call s:h('User3',          { 'fg': s:purple,    'bg': s:lightgrey, 'format': 'bold' })
+call s:h('User4',          { 'fg': s:aqua,      'bg': s:lightgrey, 'format': 'bold' })
 
 " }}}
+" ============================================================================
 " Spell / Misc / UI {{{
+" ============================================================================
 
-call s:h('SpellBad',       { 'fg': s:red,        'format': 'undercurl' })
-call s:h('SpellCap',       { 'fg': s:purple,     'format': 'underline' })
-call s:h('SpellRare',      { 'fg': s:aqua,       'format': 'underline' })
-call s:h('SpellLocal',     { 'fg': s:pink,       'format': 'underline' })
+call s:h('SpellBad',       { 'fg': s:red,    'format': 'undercurl' })
+call s:h('SpellCap',       { 'fg': s:purple, 'format': 'underline' })
+call s:h('SpellRare',      { 'fg': s:aqua,   'format': 'underline' })
+call s:h('SpellLocal',     { 'fg': s:pink,   'format': 'underline' })
 
 call s:h('SpecialKey',     { 'fg': s:pink })
 call s:h('Title',          { 'fg': s:yellow })
 call s:h('Directory',      { 'fg': s:aqua })
 
-call s:h('Folded',         { 'fg': s:warmgrey,   'bg': s:darkblack })
-call s:h('FoldColumn',     { 'fg': s:grey,       'bg': s:lightblack })
+call s:h('Folded',         { 'fg': s:warmgrey, 'bg': s:darkblack })
+call s:h('FoldColumn',     {                    'bg': s:darkblack })
 
-call s:h('Pmenu',          { 'fg': s:white2,     'bg': s:darkblack })
-call s:h('PmenuSel',       { 'fg': s:aqua,       'bg': s:darkblack, 'format': 'reverse,bold' })
-call s:h('PmenuThumb',     {                     'bg': s:grey })
-call s:h('PmenuSbar',      {                     'bg': s:lightblack })
+call s:h('Pmenu',          { 'fg': s:white2,    'bg': s:darkblack })
+call s:h('PmenuSel',       { 'fg': s:aqua,      'bg': s:darkblack, 'format': 'reverse,bold' })
+call s:h('PmenuThumb',     { 'fg': s:lightblack,'bg': s:grey })
 
-call s:h('NormalFloat',    { 'fg': s:white2,     'bg': s:darkblack })
+call s:h('NormalFloat',    { 'fg': s:white2,    'bg': s:darkblack })
 
 " }}}
+" ============================================================================
 " Generic syntax {{{
+" ============================================================================
 
 call s:h('Constant',       { 'fg': s:purple })
 call s:h('Number',         { 'fg': s:purple })
@@ -245,15 +233,17 @@ call s:h('Delimiter',      { 'fg': s:pink })
 call s:h('SpecialComment', { 'fg': s:aqua })
 call s:h('Tag',            { 'fg': s:pink })
 
-call s:h('Todo',           { 'fg': s:orange,    'format': 'bold,italic' })
-call s:h('Comment',        { 'fg': s:warmgrey,  'format': 'italic' })
+call s:h('Todo',           { 'fg': s:orange, 'format': 'bold,italic' })
+call s:h('Comment',        { 'fg': s:warmgrey, 'format': 'italic' })
 
 call s:h('Underlined',     { 'fg': s:green })
-call s:h('Ignore',         {} )
-call s:h('Error',          { 'fg': s:purered,   'bg': s:lightblack3 })
+call s:h('Ignore',         { })
+call s:h('Error',          { 'fg': s:purered, 'bg': s:lightblack3 })
 
 " }}}
+" ============================================================================
 " Diff / Git {{{
+" ============================================================================
 
 call s:h('DiffAdd',        { 'fg': s:diff_add_fg,    'bg': s:diff_add_bg })
 call s:h('DiffDelete',     { 'fg': s:diff_delete_fg, 'bg': s:diff_delete_bg })
@@ -264,165 +254,110 @@ call s:h('GitSignsAdd',    { 'fg': { 'gui': '#8FCF4A', 'cterm': '113' } })
 call s:h('GitSignsChange', { 'fg': { 'gui': '#7AA6DA', 'cterm': '110' } })
 call s:h('GitSignsDelete', { 'fg': { 'gui': '#FF6FA3', 'cterm': '205' } })
 
-hi def link diffAdded   DiffAdd
-hi def link diffChanged DiffChange
-hi def link diffRemoved DiffDelete
-
-hi def link gitcommitSummary       Normal
-hi def link gitcommitOverflow      Error
-hi def link gitcommitUntracked     Comment
-hi def link gitcommitDiscarded     Comment
-hi def link gitcommitSelected      Comment
-
 " }}}
+" ============================================================================
 " Diagnostics {{{
+" ============================================================================
 
-call s:h('DiagnosticError',         { 'fg': s:red })
-call s:h('DiagnosticWarn',          { 'fg': s:orange })
-call s:h('DiagnosticInfo',          { 'fg': s:yellow })
-call s:h('DiagnosticHint',          { 'fg': s:grey })
-call s:h('DiagnosticOk',            { 'fg': s:green })
-call s:h('DiagnosticUnnecessary',   { 'fg': s:grey })
+call s:h('DiagnosticError',           { 'fg': s:red })
+call s:h('DiagnosticWarn',            { 'fg': s:orange })
+call s:h('DiagnosticInfo',            { 'fg': s:yellow })
+call s:h('DiagnosticHint',            { 'fg': s:grey })
 
-hi def link DiagnosticSignError DiagnosticError
-hi def link DiagnosticSignWarn  DiagnosticWarn
-hi def link DiagnosticSignInfo  DiagnosticInfo
-hi def link DiagnosticSignHint  DiagnosticHint
-hi def link DiagnosticSignOk    DiagnosticOk
-
-call s:h('DiagnosticUnderlineError',{ 'sp': s:red,    'format': 'undercurl' })
-call s:h('DiagnosticUnderlineWarn', { 'sp': s:orange, 'format': 'undercurl' })
-call s:h('DiagnosticUnderlineInfo', { 'sp': s:aqua,   'format': 'undercurl' })
-call s:h('DiagnosticUnderlineHint', { 'sp': s:grey,   'format': 'undercurl' })
-
-call s:h('DiagnosticVirtualTextError', { 'fg': s:red,    'bg': s:lightblack3 })
-call s:h('DiagnosticVirtualTextWarn',  { 'fg': s:orange, 'bg': s:lightblack3 })
-call s:h('DiagnosticVirtualTextInfo',  { 'fg': s:yellow, 'bg': s:lightblack3 })
-call s:h('DiagnosticVirtualTextHint',  { 'fg': s:grey,   'bg': s:lightblack3 })
-call s:h('DiagnosticVirtualTextOk',    { 'fg': s:green,  'bg': s:lightblack3 })
+call s:h('DiagnosticUnderlineError',  { 'sp': s:red,    'format': 'undercurl' })
+call s:h('DiagnosticUnderlineWarn',   { 'sp': s:orange, 'format': 'undercurl' })
+call s:h('DiagnosticUnderlineInfo',   { 'sp': s:aqua,   'format': 'undercurl' })
+call s:h('DiagnosticUnderlineHint',   { 'sp': s:grey,   'format': 'undercurl' })
 
 " }}}
+" ============================================================================
 " Language-specific accents {{{
+" ============================================================================
 
 " Markdown
-call s:h('markdownCode',            { 'fg': s:purple, 'format': 'italic' })
-call s:h('markdownListMarker',      { 'fg': s:purple })
+call s:h('markdownCode',              { 'fg': s:purple, 'format': 'italic' })
+call s:h('markdownListMarker',        { 'fg': s:purple })
 
 " Vim
-call s:h('vimCommand',              { 'fg': s:pink })
+call s:h('vimCommand',                { 'fg': s:pink })
 
 " HTML / XML / JSX
-call s:h('htmlTag',                 { 'fg': s:pink })
-call s:h('htmlEndTag',              { 'fg': s:white })
-call s:h('htmlTagName',             { 'fg': s:pink })
-call s:h('htmlArg',                 { 'fg': s:green })
-call s:h('htmlSpecialChar',         { 'fg': s:purple })
+call s:h('htmlTag',                   { 'fg': s:pink })
+call s:h('htmlEndTag',                { 'fg': s:white })
+call s:h('htmlTagName',               { 'fg': s:pink })
+call s:h('htmlArg',                   { 'fg': s:green })
+call s:h('htmlSpecialChar',           { 'fg': s:purple })
 
-call s:h('xmlTag',                  { 'fg': s:pink })
-call s:h('xmlEndTag',               { 'fg': s:pink })
-call s:h('xmlTagName',              { 'fg': s:orange })
-call s:h('xmlAttrib',               { 'fg': s:green })
+call s:h('xmlTag',                    { 'fg': s:pink })
+call s:h('xmlEndTag',                 { 'fg': s:pink })
+call s:h('xmlTagName',                { 'fg': s:orange })
+call s:h('xmlAttrib',                 { 'fg': s:green })
 
-call s:h('jsxTag',                  { 'fg': s:white })
-call s:h('jsxCloseTag',             { 'fg': s:white })
-call s:h('jsxTagName',              { 'fg': s:pink })
-call s:h('jsxComponentName',        { 'fg': s:pink })
-call s:h('jsxAttrib',               { 'fg': s:green })
+call s:h('jsxTag',                    { 'fg': s:white })
+call s:h('jsxCloseTag',               { 'fg': s:white })
+call s:h('jsxTagName',                { 'fg': s:pink })
+call s:h('jsxComponentName',          { 'fg': s:pink })
+call s:h('jsxAttrib',                 { 'fg': s:green })
 
 " CSS
-call s:h('cssProp',                 { 'fg': s:yellow })
-call s:h('cssUIAttr',               { 'fg': s:yellow })
-call s:h('cssFunctionName',         { 'fg': s:aqua })
-call s:h('cssColor',                { 'fg': s:purple })
-call s:h('cssPseudoClassId',        { 'fg': s:purple })
-call s:h('cssClassName',            { 'fg': s:green })
-call s:h('cssValueLength',          { 'fg': s:purple })
-call s:h('cssCommonAttr',           { 'fg': s:pink })
-call s:h('cssBraces',               { 'fg': s:white })
-call s:h('cssClassNameDot',         { 'fg': s:pink })
-call s:h('cssURL',                  { 'fg': s:orange, 'format': 'underline,italic' })
+call s:h('cssProp',                   { 'fg': s:yellow })
+call s:h('cssUIAttr',                 { 'fg': s:yellow })
+call s:h('cssFunctionName',           { 'fg': s:aqua })
+call s:h('cssColor',                  { 'fg': s:purple })
+call s:h('cssPseudoClassId',          { 'fg': s:purple })
+call s:h('cssClassName',              { 'fg': s:green })
+call s:h('cssValueLength',            { 'fg': s:purple })
+call s:h('cssCommonAttr',             { 'fg': s:pink })
+call s:h('cssBraces',                 { 'fg': s:white })
+call s:h('cssClassNameDot',           { 'fg': s:pink })
+call s:h('cssURL',                    { 'fg': s:orange, 'format': 'underline,italic' })
 
 " Parameters / constructors
-call s:h('Parameter',               { 'fg': s:orange })
-call s:h('Constructor',             { 'fg': s:aqua, 'format': 'italic' })
+call s:h('Parameter',                 { 'fg': s:orange })
+call s:h('Constructor',               { 'fg': s:aqua, 'format': 'italic' })
 
 " }}}
+" ============================================================================
 " Plugin groups / links {{{
+" ============================================================================
 
-hi def link NERDTreeDir              Directory
-hi def link NERDTreeDirSlash         Directory
-hi def link NERDTreeCWD              Directory
-hi def link NERDTreeOpenable         Directory
-hi def link NERDTreeClosable         Directory
-hi def link NERDTreeUp               Directory
-hi def link NERDTreeHelp             Comment
-hi def link NERDTreeBookmarksHeader  Title
-hi def link NERDTreeBookmarksLeader  NonText
-hi def link NERDTreeBookmarkName     Directory
+hi def link NERDTreeDir                 Directory
+hi def link NERDTreeDirSlash            Directory
+hi def link NERDTreeCWD                 Directory
+hi def link NERDTreeOpenable            Directory
+hi def link NERDTreeClosable            Directory
+hi def link NERDTreeUp                  Directory
+hi def link NERDTreeHelp                Comment
+hi def link NERDTreeBookmarksHeader     Title
+hi def link NERDTreeBookmarksLeader     NonText
+hi def link NERDTreeBookmarkName        Directory
 
-hi def link NvimTreeRootFolder       Directory
-hi def link NvimTreeFolderIcon       Directory
+hi def link NvimTreeRootFolder          Directory
 
-hi def link SyntasticErrorSign       DiagnosticError
-hi def link SyntasticWarningSign     DiagnosticWarn
+hi def link SyntasticErrorSign          DiagnosticError
+hi def link SyntasticWarningSign        DiagnosticWarn
 
-hi def link DapUIVariable            Normal
-hi def link DapUIValue               Normal
-hi def link DapUIFrameName           Normal
-hi def link DapUILineNumber          LineNr
-hi def link DapUIBreakpointsLine     LineNr
+hi def link DapUIVariable               Normal
+hi def link DapUIValue                  Normal
+hi def link DapUIFrameName              Normal
+hi def link DapUILineNumber             LineNr
+hi def link DapUIBreakpointsLine        LineNr
 hi def link DapUIBreakpointsCurrentLine CursorLineNr
-hi def link DapUIBreakpointsPath     Directory
-hi def link DapUIBreakpointsInfo     DiagnosticInfo
-hi def link DapUIWatchesEmpty        DiagnosticHint
-hi def link DapUIWatchesValue        DiagnosticInfo
-hi def link DapUIWatchesError        DiagnosticError
+hi def link DapUIBreakpointsPath        Directory
+hi def link DapUIBreakpointsInfo        DiagnosticInfo
+hi def link DapUIWatchesEmpty           DiagnosticHint
+hi def link DapUIWatchesValue           DiagnosticInfo
+hi def link DapUIWatchesError           DiagnosticError
 
-hi def link CocErrorSign             DiagnosticError
-hi def link CocWarningSign           DiagnosticWarn
-hi def link CocInfoSign              DiagnosticInfo
-hi def link CocHintSign              DiagnosticHint
-
-" NvimTree extended
-if has('nvim')
-  if g:monokai_transparent
-    call s:h('NvimTreeNormal',       { 'fg': s:white })
-    call s:h('NvimTreeEndOfBuffer',  { 'fg': s:lightblack })
-  else
-    call s:h('NvimTreeNormal',       { 'fg': s:white, 'bg': s:black })
-    call s:h('NvimTreeEndOfBuffer',  { 'fg': s:lightblack, 'bg': s:black })
-  endif
-  call s:h('NvimTreeWinSeparator',   { 'fg': s:darkgrey, 'bg': s:darkblack })
-  hi def link NvimTreeFolderIcon     Directory
-  call s:h('NvimTreeGitDirty',       { 'fg': s:orange })
-  call s:h('NvimTreeGitNew',         { 'fg': s:green })
-  call s:h('NvimTreeGitDeleted',     { 'fg': s:pink })
-  call s:h('NvimTreeGitIgnored',     { 'fg': s:warmgrey })
-endif
-
-" Telescope maps to Float* to keep borders consistent
-hi def link TelescopeNormal          NormalFloat
-hi def link TelescopeBorder          FloatBorder
-hi def link TelescopeTitle           FloatTitle
-hi def link TelescopePromptNormal    NormalFloat
-hi def link TelescopePromptBorder    FloatBorder
-hi def link TelescopeResultsNormal   NormalFloat
-hi def link TelescopeResultsBorder   FloatBorder
-hi def link TelescopePreviewNormal   NormalFloat
-hi def link TelescopePreviewBorder   FloatBorder
-call s:h('TelescopeSelection', { 'fg': s:white, 'bg': s:lightblack2, 'format': 'bold' })
-
-" Float border/title with transparency awareness
-if g:monokai_transparent
-  call s:h('FloatBorder',    { 'fg': s:darkgrey })
-  call s:h('FloatTitle',     { 'fg': s:yellow, 'format': 'bold' })
-else
-  call s:h('FloatBorder',    { 'fg': s:darkgrey, 'bg': s:darkblack })
-  call s:h('FloatTitle',     { 'fg': s:yellow,   'bg': s:darkblack, 'format': 'bold' })
-endif
+hi def link CocErrorSign                DiagnosticError
+hi def link CocWarningSign              DiagnosticWarn
+hi def link CocInfoSign                 DiagnosticInfo
+hi def link CocHintSign                 DiagnosticHint
 
 " }}}
+" ============================================================================
 " Tree-sitter (opinionated Monokai mapping) {{{
+" ============================================================================
 
 if has('nvim')
   " Comments / text
@@ -487,43 +422,12 @@ if has('nvim')
 
   " Namespaces / modules
   call s:h('@namespace',                { 'fg': s:aqua })
-
-  " Link-based dedup
-  hi def link @function.call           @function
-  hi def link @function.method         @function
-  hi def link @function.method.call    @function
-  hi def link @variable.member         @field
-  hi def link @property                @field
-  hi def link @punctuation             @punctuation.delimiter
-
-  " Newer captures
-  call s:h('@module',                  { 'fg': s:aqua })
-  call s:h('@decorator',               { 'fg': s:purple })
-  call s:h('@string.special.url',      { 'fg': s:orange, 'format': 'underline' })
-  call s:h('@string.special.path',     { 'fg': s:yellow })
-  call s:h('@string.special.symbol',   { 'fg': s:purple })
-  call s:h('@comment.todo',            { 'fg': s:orange, 'format': 'bold,italic' })
-  call s:h('@markup.link',             { 'fg': s:aqua })
-  call s:h('@markup.link.label',       { 'fg': s:green })
-  call s:h('@markup.link.url',         { 'fg': s:orange, 'format': 'underline' })
-
-  " LSP semantic tokens
-  hi def link @lsp.type.class          @type
-  hi def link @lsp.type.enum           @type
-  hi def link @lsp.type.enumMember     @constant
-  hi def link @lsp.type.function       @function
-  hi def link @lsp.type.method         @function
-  hi def link @lsp.type.interface      @type
-  hi def link @lsp.type.namespace      @namespace
-  hi def link @lsp.type.parameter      @variable.parameter
-  hi def link @lsp.type.property       @field
-  hi def link @lsp.type.type           @type
-  hi def link @lsp.type.typeParameter  @type
-  hi def link @lsp.type.variable       @variable
 endif
 
 " }}}
+" ============================================================================
 " Terminal {{{
+" ============================================================================
 
 if has('nvim')
   let g:terminal_color_0  = s:black.gui
@@ -563,10 +467,11 @@ else
 endif
 
 " }}}
+" ============================================================================
+" Extras: LSP, references, indent guides, completion, telescope, conflicts {{{
+" ============================================================================
 
-" === Extras: LSP, references, indent guides, inlay hints ===
-
-" LSP code lens & references
+" LSP codelens & references
 call s:h('LspCodeLens',            { 'fg': s:warmgrey })
 call s:h('LspCodeLensSeparator',   { 'fg': s:lightgrey })
 call s:h('LspReferenceText',       { 'bg': s:lightblack2 })
@@ -576,24 +481,22 @@ call s:h('LspReferenceWrite',      { 'bg': s:lightblack2 })
 " Inlay hints (Neovim 0.10+)
 call s:h('LspInlayHint',           { 'fg': s:warmgrey, 'bg': s:lightblack })
 
-" Illuminate (or built-in LSP references fallback)
+" Illuminate (or built-in highlights)
 hi def link IlluminatedWordText     LspReferenceText
 hi def link IlluminatedWordRead     LspReferenceRead
 hi def link IlluminatedWordWrite    LspReferenceWrite
 
-" Indent guides (indent-blankline.nvim or ibl.nvim)
+" Indent guides (indent-blankline.nvim / ibl.nvim)
 call s:h('IndentBlanklineChar',           { 'fg': s:lightblack3 })
 call s:h('IndentBlanklineContextChar',    { 'fg': s:darkgrey })
 hi def link IblIndent                     IndentBlanklineChar
 hi def link IblScope                      IndentBlanklineContextChar
 
-" Subtle popup/message areas (Neovim UI)
+" Msg areas / subtle UI
 call s:h('MsgArea',                { 'fg': s:white2, 'bg': s:darkblack })
 call s:h('MsgSeparator',           { 'fg': s:darkgrey, 'bg': s:darkblack })
-call s:h('FloatShadow',            { 'bg': { 'gui': '#000000', 'cterm': '16' } })
-call s:h('FloatShadowThrough',     { 'bg': { 'gui': '#000000', 'cterm': '16' } })
 
-" Completion item kinds (fallback when plugin not styling)
+" Completion item kinds (nvim-cmp fallback)
 hi def link CmpItemKindFunction    @function
 hi def link CmpItemKindMethod      @function
 hi def link CmpItemKindConstructor @constructor
@@ -609,11 +512,12 @@ hi def link CmpItemKindConstant    @constant
 hi def link CmpItemKindKeyword     @keyword
 hi def link CmpItemKindSnippet     Special
 hi def link CmpItemKindFile        Directory
-hi def link CmpItemKindFolder       Directory
+hi def link CmpItemKindFolder      Directory
 
-" Telescope prompt title accent for clarity
+" Telescope title accent
 call s:h('TelescopeTitle',         { 'fg': s:yellow, 'bg': s:darkblack, 'format': 'bold' })
 
-" Git conflict markers (generic)
+" Git conflict marker (generic)
 call s:h('DiffConflict',           { 'fg': s:pink, 'bg': s:darkblack, 'format': 'bold' })
 
+" }}}
