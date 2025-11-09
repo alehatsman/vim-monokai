@@ -522,25 +522,3 @@ call s:h('TelescopeTitle',         { 'fg': s:yellow, 'bg': s:darkblack, 'format'
 call s:h('DiffConflict',           { 'fg': s:pink, 'bg': s:darkblack, 'format': 'bold' })
 
 " }}}
-
-" Diffview.nvim
-if g:monokai_transparent
-  call s:h('DiffviewFileHistoryPanel', { 'fg': s:white2 })
-else
-  call s:h('DiffviewFileHistoryPanel', { 'fg': s:white2, 'bg': s:darkblack })
-endif
-call s:h('DiffviewFilePanelTitle',   { 'fg': s:yellow, 'bg': s:darkblack, 'format': 'bold' })
-call s:h('DiffviewFilePanelCounter', { 'fg': s:aqua,   'bg': s:darkblack })
-call s:h('DiffviewFilePanelPath',    { 'fg': s:warmgrey })
-
-call s:h('DiffviewStatusAdded',      { 'fg': s:diff_add_fg })
-call s:h('DiffviewStatusModified',   { 'fg': s:aqua })
-call s:h('DiffviewStatusDeleted',    { 'fg': s:diff_delete_fg })
-call s:h('DiffviewStatusRenamed',    { 'fg': s:orange })
-call s:h('DiffviewStatusUntracked',  { 'fg': s:purple })
-call s:h('DiffviewStatusUnmerged',   { 'fg': s:pink })
-
-hi def link DiffviewNormal           Normal
-hi def link DiffviewCursorLine       CursorLine
-hi def link DiffviewSignColumn       SignColumn
-hi def link DiffviewEndOfBuffer      EndOfBuffer
